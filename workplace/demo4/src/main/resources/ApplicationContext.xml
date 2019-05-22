@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        配置 bean
+        class: bean的全类名，通过反射的方式在IOC容器中创建bean，所以要求bean中必须要有无参数的构造器
+        id:   标识容器中的bean，id唯一
+     -->
+    <bean id="User1" class="entity.User">
+        <property name="name" value="lingzhi"></property>
+        <property name="age" value="16"></property>
+        <property name="addr" value="jiazhouhuayuan"></property>
+        <property name="car" ref="Car1"></property>
+    </bean>
+
+    <bean id="Car1" class="entity.Car">
+        <property name="brand" value="Baomao"></property>
+        <property name="location" value="CHongiqng"></property>
+        <property name="miles" value="3901230"></property>
+        <property name="price" value="3000"></property>
+    </bean>
+
+    <bean id="Car2" class="entity.Car">
+        <constructor-arg type="java.lang.String">
+            <value><![CDATA[<Benz!~>]]></value>
+        </constructor-arg>
+        <constructor-arg value="jiazhouhuayuan" ></constructor-arg>
+
+        <constructor-arg type = "int">
+            <value>250</value>
+        </constructor-arg>
+
+    </bean>
+</beans>
+
+
