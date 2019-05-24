@@ -1,4 +1,4 @@
-## Mybatis
+# MyBatis
 
 Mybatis主要由四大部分组成：
 
@@ -13,6 +13,50 @@ Mybatis主要由四大部分组成：
 要想访问（操作）数据库：要建立数据库连接，要定义数据库操作方法（insert/update/delete...），要有具体的操作数据库中的表 的SQL语句，而SqlSessionFactoryBuilder、SqlSessionFactory、SqlSession就是用来负责底层建立数据库连接、管理连接、释放连接等。对于业务层而言，关心的是：定义一个SQL语句，让Mybatis方便地把SQL语句执行后的结果 呈现给使用者，而这可以通过SQL Mapper来完成。
 
 SQL Mapper由两部分组成，一是：JAVA 接口，该接口中定义了 业务层 要对数据库进行何种操作；另一部分是：XML配置文件，定义了具体的数据库操作语句和映射规则。
+
+
+
+MyBatis是一个支持**普通SQL查询**，**存储过程**和**高级映射**的优秀**持久层框架**。MyBatis消除了几乎所有的JDBC代码和参数的手工设置以及对结果集的检索封装。MyBatis可以使用简单的**XML或注解**用于配置和原始映射，将接口和Java的POJO（Plain Old Java Objects，普通的Java对象）映射成数据库中的记录。
+
+
+
+## 理解mysql_mybatis字段映射表
+
+| JDBC Type   | Java Type            |
+| ----------- | -------------------- |
+| CHAR        | String               |
+| VARCHAR     | String               |
+| LONGVARCHAR | String               |
+| NUMERIC     | java.math.BigDecimal |
+| DECIMAL     | java.math.BigDecimal |
+| BIT         | boolean              |
+| BOOLEAN     | boolean              |
+| TINYINT     | byte                 |
+| SMALLINT    | short                |
+
+| JDBC Type     | JAVA Type     |
+| ------------- | ------------- |
+| INTEGER       | int           |
+| BIGINT        | long          |
+| REAL          | float         |
+| FLOAT         | double        |
+| DOUBLE        | double        |
+| BINARY        | byte[]        |
+| VARBINARY     | byte[]        |
+| LONGVARBINARY | byte[]        |
+| DATE          | java.sql.Date |
+
+| JDBC Type | JAVA Type                       |
+| --------- | ------------------------------- |
+| TIME      | java.sql.Time                   |
+| TIMESTAMP | java.sql.Timestamp              |
+| CLOB      | Clob                            |
+| BLOB      | Blob                            |
+| ARRAY     | Array                           |
+| DISTINCT  | mapping of underlying type      |
+| STRUCT    | Struct                          |
+| REF       | Ref                             |
+| DATALINK  | java.net.URL[color=red][/color] |
 
 
 
@@ -252,3 +296,5 @@ id 的值getRole 就是接口RoleMapper中 定义的 getRole方法名
 parameterType 就是getRole方法的参数类型
 resultType 就是执行SQL语句后返回的结果，把结果 封装 成POJO类 Role 类型---这也是getRole方法的返回类型。而方法的参数 会传递给#{id}
 ```
+
+[/color]: 
