@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>This is the demo of my spring mvc demo</title>
+</head>
+<body>
+
+
+    <div id="user-get">
+        <p>
+            this line will show off the user info get method.
+        </p>
+
+        <form action="/user/requestParamTest" method="get">
+            requestParam Test<br>
+            用户名：<input type="text" name="username"><br>
+            用户昵称：<input type="text" name="usernick"><br>
+            <input type="submit" value="提交">
+        </form>
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <a id="simpleLink" class="textLink" href="<c:url value="/user/simple"/>">GET /simple</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a id="simpleRevisited" class="textLink" href="<c:url value="/simple/revisited" />">GET /simple/revisited</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+    </div>
+    <div id="user-post">
+        <p>
+            this line will show off the user info post method.
+        </p>
+    </div>
+
+</body>
+</html>
