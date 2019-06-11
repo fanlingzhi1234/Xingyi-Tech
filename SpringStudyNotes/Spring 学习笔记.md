@@ -85,19 +85,20 @@ spring运用简单的组件配置合成一个复杂的应用，可以用xml和ja
 
    实例工厂方法与静态工厂方法只有一个不同：调用静态工厂方法只需使用工厂类即可，而调用实例工厂方法则需要工厂实例。先创建工厂本身作为一个bean，
    
+
 `bean id="carFactory class = "InstanceCarFactory"`
-   
+
 再调用工厂实例。
-   
+
    `<bean id="car2" factory-bean="carFactory" factory-method="getCar"></bean>`
-   
+
    使用实例工厂方法时，配置Bean实例的`<bean.../>`元素无须class属性，配置实例工厂方法使用`factory-bean`指定工厂实例。
    采用实例工厂方法创建Bean的`<bean.../>`元素时需要指定如下两个属性：factory-bean: 该属性的值为工厂Bean的id。
-   
+
    factory-method: 该属性指定实例工厂的工厂方法。
-   
+
    若调用实例工厂方法时需要传入参数，则使用`<constructor-arg.../>`元素确定参数值。
-   
+
 4. FactoryBean去配置bean
 
    
@@ -382,9 +383,44 @@ AspectJ：使用aspectj注解和基于xml配置的aop
 
 ### JDBC templete
 
+### 事务
 
+用try catch throwout等方法把同步操作的功能同时进行，保证数据的完整性和一致性，
 
+####声明：
 
+1. 工厂内创建事务管理器
+2. 工厂内创建事务
+
+#### 传播属性：
+
+事务方法被另一个事务方法调用时，必须制定事务应该如何传播，(可能继续在现有事务总进行，也可能开启新一个事务，并在自己的事务中运行)
+
+一个事务内的数据和操作，只有在事务结束之后才传递到数据库和别的设备。
+
+- 使用propagation制定事务的传播行为，即当前的事务被另外一个事务方法调用时@Transactional(propagation=Propaagtion.REQUIRED)
+  - Required:默认在现有的事务内运行，使用调用方法的事务
+  - Required_NEW: 该方法必须启动一个新事务，并在自己的事务内运行，如果有事务在运行，就应该先挂起它
+
+- 使用isolation指定事务的隔离级别，最常用的取值为READ_COMMITTED
+
+  `@Transactional(isolation=Isolation.READ_COMMITTED)`
+
+- 默认情况下spring的声明式事务对所有的运行时异常进行回滚，也可以通过相应的属性进行设置。
+
+  ```
+  noRollbackFor={Account}
+  
+  RollbackFor
+  ```
+
+- 使用readOnly指定事务是否为只读，表示这个事务只读取数据单不更新数据。
+
+  这样可以帮助数据库引擎优化事务，若真的是一个只读取数据库值的方法，应设置`readOnly=true`
+
+- 使用timeout指定强制回滚之前事务可以占用的时间
+
+  `timeout=3` 占用三秒
 
 
 

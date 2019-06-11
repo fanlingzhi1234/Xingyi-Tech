@@ -297,4 +297,3 @@ parameterType 就是getRole方法的参数类型
 resultType 就是执行SQL语句后返回的结果，把结果 封装 成POJO类 Role 类型---这也是getRole方法的返回类型。而方法的参数 会传递给#{id}
 ```
 
-[/color]: 

@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+<div class="container">
+    <h2>Please input your name and password</h2>
+    <form action="${basepath}/user/Login">
+
+        <div class="input-group">
+            <span class="input-group-addon" >UserName</span>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Password</span>
+            <input type="password" id="password" name="password" class="form-control" >
+        </div>
+        <br>
+        <div class="input-group">
+            <button id="fat-btn" class="btn btn-success" type="submit">登录</button>
+        </div>
+
+    </form>
+
+</div>
+<div class="UserTable">
+    <table class="table table-bordered" width="80%">
+        <capture align="top">用户列表</capture>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>age</th>
+            <th>Date</th>
+            <th>address</th>
+            <th>Manipulation</th>
+        </tr>
+
+        <tr th:each="user:${userlist}">
+            <form action="/user/updateUser" method="post">
+                <td name="id" th:text="${user.id}"></td>
+                <td>
+                    <input type="text" name="name" th:value="${user.name}">
+                </td>
+                <td >
+                    <input type="text" name="age" th:value="${user.age}">
+                </td>
+                <td name="date" th:text="${user.date}"></td>
+                <td >
+                    <input type="text" name="addr" th:value="${user.addr}">
+                </td>
+                <td>
+                    <input class="btn btn-default" type="submit" value="update"/>
+                </td>
+            </form>
+
+        </tr>
+
+
+    </table>
+    <div>
+        <form action="/user/addNewUser" method="post">
+
+            name：<input type="text" name="newName"/>
+            age： <input type="text" name="newAge"/>
+<!--            date：<input type="Date" name="newDate"/>-->
+            addr：<input type="text" name="newAddr"/>
+            <input type="submit" class="btn btn-default" value="Add New User"/>
+        </form>
+    </div>
+    <input class="btn btn-default" type="button" value="refresh"/>
+
+</div>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+</body>
+</html>
+
+
+<!--<tr th:each="user:${userlist}">-->
+<!--    <form action="/user/deleteUser" method="post">-->
+<!--        <input type="hidden" name="id" th:value="${user.id}">-->
+<!--        <input type="hidden" name="name" th:value="${user.name}">-->
+<!--        <td th:text="${user.id}"></td>-->
+<!--        <td th:text="${user.name}"></td>-->
+<!--        <td th:text="${user.age}"></td>-->
+<!--        <td th:text="${user.date}"></td>-->
+<!--        <td th:text="${user.addr}"></td>-->
+<!--        <td></td>-->
+<!--        <td>-->
+<!--            <input class="btn btn-default" type="submit" value="delete"/>-->
+<!--        </td>-->
+<!--    </form>-->
+
+<!--</tr>-->
