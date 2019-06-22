@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Create A New User</title>
+</head>
+<body>
+
+<div class="alert alert-danger" role="alert">
+
+    <span id="Name" name="Name">Account Name</span>
+    <span>Are you sure you want to delete this account?</span>
+    <button type="button" id="deleteButton" >Yes, Sure</button>
+    <button type="button" id="cancelButton" >No, Please</button>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    var uid;
+
+    $(document).ready(function(){
+        uid = getUrlParam("id");
+        console.log(uid);
+        $.ajax({
+            type:"GET",
+            url:"/api/user/"+ uid,
+            data:{},
+            contentType:"application/json",
+            dataType:"json",
+            success:function (data) {
+                console.log("get success"+JSON.stringify(data));
+                $("#Name").text(data.name);
+            },
+            error:function (data) {
+                console.log("get Failure"+JSON.stringify(data));
+            }
+        });
+    })
+
+    $("#deleteButton").on('click', function () {
+        $.ajax({
+            type:"POST",
+            url:"/api/user/remove",
+            data:JSON.stringify({id:uid}),
+            contentType:"application/json",
+            dataType:"json",
+            success:function (msg) {
+                console.log("delete Successful"+msg)
+                window.location.href = "/user/index";
+            },
+            error:function (msg) {
+                console.log("delete Failure"+msg);
+            }
+        })
+    })
+
+    $("#cancelButton").on('click', function () {
+        window.location.href = "/user/index";
+    })
+
+
+
+
+
+</script>
+</body>
+</html>
+

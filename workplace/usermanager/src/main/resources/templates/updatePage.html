@@ -1,55 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>Update ${user.name}'s info</title>
 </head>
 <body>
-    <form action="/api/user/update">
+    <form action="/api/user/update" method="post" width="40%" align="center">
+
         <div class="form-group">
-            <label class="col-sm-2 control-label">Email</label>
+            <label for="inputName" class="col-sm-2 control-label">Name</label>
             <div class="col-sm-10">
-                <p class="form-control-static">email@example.com</p>
+                <input type="text" class="form-control" id="inputName" name="inputName" >
             </div>
         </div>
         <div class="form-group">
-            <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+            <label for="inputAge" class="col-sm-2 control-label">Age</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input type="number" class="form-control" id="inputAge" name="inputAge">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Email</label>
+            <label for="inputDate" class="col-sm-2 control-label">createDate</label>
             <div class="col-sm-10">
-                <p class="form-control-static">email@example.com</p>
+                <input type="text" class="form-control" id="inputDate" name="inputDate" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Email</label>
+            <label for="inputAddr" class="col-sm-2 control-label">Address</label>
             <div class="col-sm-10">
-                <p class="form-control-static">email@example.com</p>
+                <input type="text" class="form-control" id="inputAddr" name="inputAddr" >
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-default">Update</button>
             </div>
         </div>
     </form>
 
 
     <script type="text/javascript" th:inline="javascript">
-        function updateUser(newName, newAge, newAddr){
+
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        var uid;
+
+        $(document).ready(function(){
+            uid = getUrlParam("id");
+            console.log(uid);
             $.ajax({
-                type:"POST",
-                url:"/api/user/update",
-                data:JSON.stringify({name:newName, age:newAge, addr: newAddr}),
+                type:"GET",
+                url:"/api/user/"+ uid,
+                data:{},
                 contentType:"application/json",
                 dataType:"json",
                 success:function (data) {
                     console.log("add Successful"+JSON.stringify(data))
-                    location.href = "index";
+                    $("#inputName").val(data.name)//data.name;
+                    $("#inputAge").val(data.age)//data.age;
+                    $("#inputDate").val(data.createDate);
+                    $("#inputAddr").val(data.addr);
                 },
                 error:function (data) {
                     console.log("add Failure"+JSON.stringify(data));
                 }
             });
-        }
+        })
+
+        $('button').on('click', function updateUser(){
+            var data = JSON.stringify({     "id":uid,
+                                            "name": $('#inputName').val(),
+                                            "age":$("#inputAge").val(),
+                                            "createDate":$("#inputDate").val(),
+                                            "addr": $("#inputAddr").val()
+                                    });
+
+            $.ajax({
+                type:"POST",
+                url:"/api/user/update",
+                async:false,
+                data:data,
+                contentType:"application/json; charset=utf-8",
+                dataType:"json",
+                success:function (msg) {
+                    console.log("update Successful"+msg);
+                    window.location.href = "/user/index";
+                },
+                error:function (msg) {
+                    console.log("update Failure" +msg);
+                    alert("update failure, Please refill your information!");
+                }
+            });
+        })
+
     </script>
 </body>
 </html>

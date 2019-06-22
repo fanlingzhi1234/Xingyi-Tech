@@ -14,6 +14,13 @@ public class UserController  {
 
     static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+
+    @GetMapping("/index")
+    public String index(){
+        logger.info("get in add new user page");
+        return "index2";
+    }
+
     @GetMapping("/add")
     public String addNewUser(){
         logger.info("get in add new user page");
@@ -21,15 +28,15 @@ public class UserController  {
     }
 
     @GetMapping("/edit")
-    public String updateUser(User user){
+    public String updateUser(String id){
         logger.info("get in update user page");
         return "updatePage";
     }
 
     @GetMapping("/delete")
-    public String deleteUser(User user){
+    public String deleteUser(String id){
         logger.info("delete");
-        return "index";
+        return "deletePage";
     }
 
 }

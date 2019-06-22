@@ -75,11 +75,12 @@
 </div>
 
 <div style="flex-direction: row">
-    <button id="AddButton" class='btn btn-default' onClick="jumpToAddPage()">add New User</button>
+    <button name="AddButton" class='btn btn-default' onClick="jumpToAddPage()">add New User</button>
 </div>
 
 
 <script type="text/javascript" th:inline="javascript">
+
 
     console.log("get in js");
     $("tbody").ready(function refreshUserTable(){
@@ -106,15 +107,18 @@
                         console.log("in for loop");
                         str +=
                             "<tr>" +
-                            "<td align='center'>" + msg[i].id+ "</td>" +
+                            "<td align='center' name='id'>" + msg[i].id + "</td>" +
                             "<td align='center'>" + msg[i].name + "</td>" +
                             "<td align='center'>" + msg[i].age + "</td>" +
                             "<td align='center'>" + msg[i].date + "</td>" +
                             "<td align='center'>" + msg[i].addr + "</td>" +
-                            "<td align='center'> <button type='submit' id='updateButton' class='btn btn-default' >update</button> </td>"
-                            "</tr>";
+                            "<td align='center'> " +
+                            "<a href='/user/edit?id=" + msg[i].id + "' class='btn btn-default'>Update</a> " +
+                            "<a href='/user/delete?id=" + msg[i].id + "' class='btn btn-default'>Delete</a>"+
+                            "</td>" +
+                        "</tr>";
                     }
-                    console.log(str);
+
                     $("tbody").html(str)
                 }
                 console.log("return successful+"+msg)
@@ -130,15 +134,27 @@
             type:"GET",
             url:"/user/add",
             async:true,
+
             success:function(data){
                 console.log("get in add page success"+data);
-                location.href = data;
             },
             error:function(){
                 console.log("get in add page failure");
             }
         })
     }
+    function deleteUser() {
+
+        $.ajax({
+            type:"POST",
+            url:"api/user/remove/{id}",
+            async:true,
+            success:function(){
+                location.href = "/user/index";
+            }
+        })
+    }
+
 
 
 </script>

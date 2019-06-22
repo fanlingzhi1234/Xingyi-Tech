@@ -7,11 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
-
 public class UserApi {
 
     static final Logger logger = LoggerFactory.getLogger(UserApi.class);
@@ -22,7 +23,7 @@ public class UserApi {
     /**
      * 根据ID查询用户信息
      * @param id
-     * @return
+     * @return user
      */
     @GetMapping("/{id}")
     public User getById(@PathVariable Integer id){
@@ -45,81 +46,50 @@ public class UserApi {
 
     /**
      * 根据返回数据新建用户
-     * @param user
+     * @param
      * @return
      */
+
+
     @PostMapping("/save")
-    public void addNewUser(@RequestBody User user){
+    public Map<String,Object> addNewUser(@RequestBody rxUser rxuser){
 
-        User datauser = userService.getUserById(user.getId());
-        String flagMessage = "success";
-        String hintMessage="数据添加成功!!!";
-        if(datauser != null){
-            flagMessage = "fail";
-            hintMessage = "数据库已有该数据!!!";
-        }else{
-            userService.addNewUser(user.getName(),user.getAge(),user.getDate(),user.getAddr());
+        logger.debug("这是传入的数据"+ rxuser);
+        User user = new User();
+        user.setName(rxuser.getName());
+        user.setAge(rxuser.getAge());
+        user.setCreateDate(rxuser.getDate());
+        user.setAddr(rxuser.getAddr());
+        logger.debug("DEBUG+"+user);
+        userService.addNewUser(user);
 
-        }
-
-//
-//
-//
-//        String flagMessage = "success";
-//        String hintMessage="数据添加成功!!!";
-//        if(datauser != null){
-//            flagMessage = "fail";
-//            hintMessage = "数据库已有该数据!!!";
-//        }else{
-//            userService.addNewUser(user.getName(),user.getAge(),user.getDate(),user.getAddr());
-//        }
-//
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("flag",flagMessage);
-//        jsonObject.put("hintMessage",hintMessage);
-//        System.out.println(jsonObject.toJSONString());
+        Map map = new HashMap();
+        map.put("success",true);
+        return map;
     }
 
     /**
+     * 根据新数据更新用户信息
      *
-     * @param id
-     * @param name
-     * @param age
-     * @param addr
-     * @param date
      */
     @PostMapping("/update")
-    public void updateUser(Integer id, String name, Integer age, String addr, java.sql.Date date){
-        userService.updateUser(new User(id,name,age,date,addr));
+    public Map<String,Object> updateUser(@RequestBody User rxuser){
+        //User user = new User(id,name,age,date,addr);
+        userService.updateUser(rxuser);
+        Map map = new HashMap();
+        map.put("success",true);
+        return map;
     }
 
 
-    //    @PostMapping("/update/{id}")
-//    public ResponseData update(@PathVariable Long id,
-//                               @RequestBody @Valid RxUpdateUser rxUpdateUser,
-//                               BindingResult bindingResult) {
-//        if (bindingResult.hasFieldErrors()) {
-//            return ResponseUtils.valid(bindingResult);
-//        }
-//        UserInfo userInfo = new UserInfo(id);
-//        userInfo.setName(rxUpdateUser.getName());
-//        userInfo.setCardId(rxUpdateUser.getCardId());
-//        userInfo.setSex(rxUpdateUser.getSex());
-//        if (rxUpdateUser.getBirthday() != null) {
-//            userInfo.setBirthday(rxUpdateUser.getBirthday());
-//        }
-//        userInfo.setState(UserState.ACTIVE);
-//        userInfo.setRemark(rxUpdateUser.getRemark());
-//        userService.update(userInfo);
-//
-//        return ResponseData.success();
-//    }
-
-
-
     @PostMapping("/remove")
-    public void deleteUser(Integer id){
-        userService.deleteUser(id);
+    public Map<String,Object> deleteUser(@RequestBody RxId rxid){
+        logger.debug("这是传入的数据"+ rxid.getId());
+        //Integer uid = Integer.valueOf(id);
+        userService.deleteUser(rxid.getId());
+        Map map = new HashMap();
+        map.put("success",true);
+        return map;
     }
 
 

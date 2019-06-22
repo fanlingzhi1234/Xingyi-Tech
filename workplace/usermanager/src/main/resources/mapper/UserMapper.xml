@@ -15,7 +15,7 @@
         <id property="id" column="id" javaType="java.lang.Integer"></id>
         <result property="name" column="name" javaType="java.lang.String"></result>
         <result property="age" column="age" javaType="java.lang.Integer"></result>
-        <result property="date" column="date" javaType="java.sql.Date"></result>
+        <result property="createDate" column="date" javaType="java.lang.String"></result>
         <result property="addr" column="addr" javaType="java.lang.String"></result>
     </resultMap>
     <!-- 在各种标签中的id属性必须和接口中的方法名相同 ， id属性值必须是唯一的，不能够重复使用。parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型-->
@@ -27,11 +27,11 @@
 
 
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
-        insert into UserTest (name,age,date,addr) values (#{name},#{age},#{date},#{addr})
+        insert into UserTest (name,age,date,addr) values (#{name},#{age},#{createDate},#{addr})
     </insert>
 
     <update id="updateUser" >
-        update UserTest set name=#{name},age=#{age},addr=#{addr},date=#{date} where id=#{id}
+        update UserTest set name=#{name},age=#{age},addr=#{addr},date=#{createDate} where id=#{id}
     </update>
 
     <delete id="deleteUser" parameterType="int">

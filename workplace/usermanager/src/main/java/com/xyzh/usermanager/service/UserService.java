@@ -12,7 +12,9 @@ public interface UserService {
 
     List<User> getAllUser();
 
-    void addNewUser(String name, Integer age, Date date, String addr);
+    void addNewUser(User user);
+
+    void addNewUser(String name, Integer age, String date, String addr);
 
     void deleteUser(Integer id);
 

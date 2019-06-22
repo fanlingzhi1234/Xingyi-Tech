@@ -12,18 +12,18 @@ public class User {
 
     }
 
-    public User(String name, Integer age, java.sql.Date date,String addr) {
+    public User(String name, Integer age, String createDate, String addr) {
         this.name = name;
         this.age = age;
-        this.date = date;
+        this.createDate = createDate;
         this.addr = addr;
     }
 
-    public User(Integer id, String name, Integer age, java.sql.Date date,String addr) {
+    public User(Integer id, String name, Integer age, String createDate, String addr) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.date = date;
+        this.createDate = createDate;
         this.addr = addr;
     }
 
@@ -41,7 +41,7 @@ public class User {
 
     @Getter
     @Setter
-    private java.sql.Date date;
+    private String createDate;
 
     @Getter
     @Setter
@@ -53,7 +53,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", Date=" + date +
+                ", createDate=" + createDate +
                 ", addr='" + addr + '\'' +
                 '}';
     }

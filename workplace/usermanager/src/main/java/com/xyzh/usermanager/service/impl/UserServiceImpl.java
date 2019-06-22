@@ -27,8 +27,13 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectAllUser();
     }
 
+
     @Override
-    public void addNewUser(String name, Integer age, Date date, String addr) {
+    public void addNewUser(User user) {
+        userMapper.insertUser(user);
+    }
+    @Override
+    public void addNewUser(String name, Integer age, String date, String addr) {
         userMapper.insertUser(new User(name,age,date,addr));
     }
 
